@@ -1,23 +1,24 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "Setting.h"
 
-int main() {
+int main(int argc, char* argv[]) {
     struct coordinate* l_coordinate;
     struct coordinate* r_coordinate;
     struct gisinfo* DS_dms;
     int DS[32] = {0, };
     int count;
-    char filename[100];
 
     l_coordinate = (struct coordinate*)malloc(sizeof(struct coordinate) * 32);
     r_coordinate = (struct coordinate*)malloc(sizeof(struct coordinate) * 32);
     DS_dms = (struct gisinfo*)malloc(sizeof(struct gisinfo) * 32);
 
-    printf("filename: ");
-#pragma warning(suppress : 4996)
-    scanf("%[^\n]", &filename);
+    if(argc < 2){
+	printf("Usage: a.out [file path]\n");
+	return 1;
+    }
 
-    count = getGIS(filename, l_coordinate, r_coordinate);
+    count = getGIS(argv[1], l_coordinate, r_coordinate);
     getDistance(DS, count, l_coordinate, r_coordinate);
 
     getDMS(DS, count, DS_dms);
